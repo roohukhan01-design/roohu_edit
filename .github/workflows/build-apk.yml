@@ -22,7 +22,13 @@ jobs:
           node-version: '20'
 
       - name: Run shared validation tests
-        run: node --test validate.test.js
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p shared/core shared/test
+          cp validate.js shared/core/validate.js
+          cp validate.test.js shared/test/validate.test.js
+          node shared/test/validate.test.js
 
       - name: Reconstruct Android module from uploaded root files
         shell: bash
