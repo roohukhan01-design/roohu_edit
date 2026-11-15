@@ -16,6 +16,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Set up Node for shared validation tests
         uses: actions/setup-node@v4
         with:
@@ -78,12 +81,11 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Configure preinstalled Android SDK
+      - name: Install Android SDK packages
         shell: bash
         run: |
           set -euo pipefail
-          command -v sdkmanager
-          yes | sdkmanager --licenses >/dev/null
+          sdkmanager --licenses
           sdkmanager --install "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
       - name: Set up Gradle 8.7
